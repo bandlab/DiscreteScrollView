@@ -1,1 +1,2 @@
 include ':sample', ':library'
+project(":library").name = "discrete-scrollview"

@@ -29,5 +29,5 @@ dependencies {
 
     implementation 'com.yarolegovich:mp:1.0.9'
 
-    implementation project(':library')
+    implementation project(':discrete-scrollview')
 }

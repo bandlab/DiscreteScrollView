@@ -1,6 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+plugins {
+    id "com.jfrog.artifactory" version "4.7.5"
+}
 
+apply plugin: 'com.android.library'
+
+group = rootProject.ext["groupId"]
+version = rootProject.ext["publishVersion"]
+
+apply from: "$rootProject.projectDir.absolutePath/artifactory.gradle"
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -27,14 +34,4 @@ dependencies {
     androidTestImplementation "com.android.support:appcompat-v7:$supportLibVersion"
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
-}
-
-publish {
-    artifactId = 'discrete-scrollview'
-    userOrg = rootProject.userOrg
-    groupId = rootProject.groupId
-    uploadName = rootProject.uploadName
-    publishVersion = rootProject.publishVersion
-    description = rootProject.description
-    licences = rootProject.licences
 }

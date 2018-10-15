@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
@@ -26,12 +26,35 @@ ext {
     groupId = 'com.yarolegovich'
     uploadName = 'DiscreteScrollView'
     description = 'A scrollable list of items that centers the current element and provides easy-to-use APIs for cool item animations.'
-    publishVersion = '1.4.9'
+    publishVersion = '1.4.10-scroll-check'
     licences = ['Apache-2.0']
 
     compileSdkVersion = 27
-    buildToolsVersion = '26.0.2'
+    buildToolsVersion = '28.0.3'
     targetSdkVersion = 27
 
     supportLibVersion = '27.1.1'
+}
+
+@SuppressWarnings(["GroovyAssignabilityCheck"])
+Object getBuildProperty(String varName, String defaultValue = null) {
+    if (System.getenv().containsKey(varName)) {
+        return System.getenv()[varName]
+    }
+
+    File propsFile = file(rootProject.file('local.properties'))
+    if (propsFile.exists() && propsFile.canRead()) {
+        Properties localProps = new Properties()
+
+        localProps.load(new FileInputStream(propsFile))
+        if (localProps.containsKey(varName)) {
+            return localProps[varName]
+        }
+    }
+
+    if (rootProject.hasProperty(varName)) {
+        return rootProject.property(varName)
+    }
+
+    return defaultValue
 }

@@ -11,14 +11,13 @@ import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityRecordCompat;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.yarolegovich.discretescrollview.transform.DiscreteScrollItemTransformer;
-
-import java.util.Locale;
 
 /**
  * Created by yarolegovich on 17.02.2017.
@@ -360,7 +359,14 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         if (currentPosition == position || pendingPosition != NO_POSITION) {
             return;
         }
-        checkTargetPosition(state, position);
+        if (position < 0 || position >= state.getItemCount()) {
+            Log.w("DiscreteScrollLayout",
+                    "Cannot scroll to position "
+                            + position +
+                            " with items in RV state "
+                            + state.getItemCount());
+            return;
+        }
         if (currentPosition == NO_POSITION) {
             //Layout not happened yet
             currentPosition = position;
@@ -717,14 +723,6 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         return orientationHelper.isViewVisible(
                 viewCenter, childHalfWidth, childHalfHeight,
                 endBound, extraLayoutSpace);
-    }
-
-    private void checkTargetPosition(RecyclerView.State state, int targetPosition) {
-        if (targetPosition < 0 || targetPosition >= state.getItemCount()) {
-            throw new IllegalArgumentException(String.format(Locale.US,
-                    "target position out of bounds: position=%d, itemCount=%d",
-                    targetPosition, state.getItemCount()));
-        }
     }
 
     protected void setRecyclerViewProxy(RecyclerViewProxy recyclerViewProxy) {
