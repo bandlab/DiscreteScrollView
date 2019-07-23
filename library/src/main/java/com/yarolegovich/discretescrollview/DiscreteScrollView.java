@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.yarolegovich.discretescrollview.transform.DiscreteScrollItemTransformer;
@@ -78,13 +79,21 @@ public class DiscreteScrollView extends RecyclerView {
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
-        boolean isFling = super.fling(velocityX, velocityY);
-        if (isFling) {
-            layoutManager.onFling(velocityX, velocityY);
-        } else {
-            layoutManager.returnToCurrentPosition();
+        try {
+            Log.i("DiscreteScrollView", String.format(
+                    "fling(%d, %d) from position %d", velocityX, velocityY, getCurrentItem())
+            );
+            boolean isFling = super.fling(velocityX, velocityY);
+            if (isFling) {
+                layoutManager.onFling(velocityX, velocityY);
+            } else {
+                layoutManager.returnToCurrentPosition();
+            }
+            return isFling;
+        } catch (Throwable t) {
+            Log.w("DiscreteScrollView", "Fling failed", t);
+            return false;
         }
-        return isFling;
     }
 
     @Nullable
