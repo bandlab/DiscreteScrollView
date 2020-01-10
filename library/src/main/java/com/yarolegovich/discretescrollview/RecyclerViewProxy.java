@@ -101,10 +101,11 @@ public class RecyclerViewProxy {
 
     public void startSmoothScroll(RecyclerView.SmoothScroller smoothScroller) {
         try {
-            Log.i("RecyclerViewProxy", String.format("startSmoothScroll(%s)", smoothScroller.toString()));
             layoutManager.startSmoothScroll(smoothScroller);
         } catch (IllegalArgumentException e) {
-            Log.i("RecyclerViewProxy", "startSmoothScroll failed", e);
+            Log.w("RecyclerViewProxy", String.format(
+                    "startSmoothScroll(%s) failed", smoothScroller.toString()
+            ), e);
         }
     }
 
