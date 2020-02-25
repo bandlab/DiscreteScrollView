@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
@@ -26,14 +26,11 @@ ext {
     groupId = 'com.yarolegovich'
     uploadName = 'DiscreteScrollView'
     description = 'A scrollable list of items that centers the current element and provides easy-to-use APIs for cool item animations.'
-    publishVersion = '1.4.9-scroll-check.4'
+    publishVersion = '1.4.9-scroll-check-androidx'
     licences = ['Apache-2.0']
 
-    compileSdkVersion = 27
-    buildToolsVersion = '28.0.3'
-    targetSdkVersion = 27
-
-    supportLibVersion = '27.1.1'
+    compileSdkVersion = 29
+    targetSdkVersion = 29
 }
 
 @SuppressWarnings(["GroovyAssignabilityCheck"])
