@@ -223,10 +223,16 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         if (position < 0) return;
         View v = detachedCache.get(position);
         if (v == null) {
-            v = recyclerViewProxy.getMeasuredChildForAdapterPosition(position, recycler);
-            recyclerViewProxy.layoutDecoratedWithMargins(v,
-                    viewCenter.x - childHalfWidth, viewCenter.y - childHalfHeight,
-                    viewCenter.x + childHalfWidth, viewCenter.y + childHalfHeight);
+            try {
+                v = recyclerViewProxy.getMeasuredChildForAdapterPosition(position, recycler);
+                recyclerViewProxy.layoutDecoratedWithMargins(v,
+                        viewCenter.x - childHalfWidth, viewCenter.y - childHalfHeight,
+                        viewCenter.x + childHalfWidth, viewCenter.y + childHalfHeight);
+            } catch (Throwable t) {
+                Log.w("DiscreteScrollLayoutMan", String.format(
+                        "layoutView(recycler, %d, %s) failed", position, viewCenter.toString()
+                ), t);
+            }
         } else {
             recyclerViewProxy.attachView(v);
             detachedCache.remove(position);

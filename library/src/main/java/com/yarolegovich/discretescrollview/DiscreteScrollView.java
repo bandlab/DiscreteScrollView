@@ -80,9 +80,6 @@ public class DiscreteScrollView extends RecyclerView {
     @Override
     public boolean fling(int velocityX, int velocityY) {
         try {
-            Log.i("DiscreteScrollView", String.format(
-                    "fling(%d, %d) from position %d", velocityX, velocityY, getCurrentItem())
-            );
             boolean isFling = super.fling(velocityX, velocityY);
             if (isFling) {
                 layoutManager.onFling(velocityX, velocityY);
@@ -91,7 +88,9 @@ public class DiscreteScrollView extends RecyclerView {
             }
             return isFling;
         } catch (Throwable t) {
-            Log.w("DiscreteScrollView", "Fling failed", t);
+            Log.w("DiscreteScrollView", String.format(
+                    "fling(%d, %d) failed from position %d", velocityX, velocityY, getCurrentItem()
+            ), t);
             return false;
         }
     }

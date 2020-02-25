@@ -3,6 +3,7 @@ package com.yarolegovich.discretescrollview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -99,7 +100,13 @@ public class RecyclerViewProxy {
     }
 
     public void startSmoothScroll(RecyclerView.SmoothScroller smoothScroller) {
-        layoutManager.startSmoothScroll(smoothScroller);
+        try {
+            layoutManager.startSmoothScroll(smoothScroller);
+        } catch (IllegalArgumentException e) {
+            Log.w("RecyclerViewProxy", String.format(
+                    "startSmoothScroll(%s) failed", smoothScroller.toString()
+            ), e);
+        }
     }
 
     public void removeAllViews() {
